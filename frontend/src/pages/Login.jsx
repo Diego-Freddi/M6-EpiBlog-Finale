@@ -14,12 +14,12 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await api.post("/auth/login/local", { email, password });
+            const response = await api.post('/auth/login', { email, password });
             const { user, token } = response.data;
             login(user, token);
-            navigate("/");
+            navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || "Errore durante il login");
+            setError(err.response?.data?.message || 'Errore durante il login');
         }
     };
 
