@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const EditPost = () => {
     const { id } = useParams();
@@ -26,7 +26,7 @@ const EditPost = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await axios.get(`http://localhost:5020/api/posts/${id}`);
+                const response = await api.get(`/posts/${id}`);
                 const post = response.data;
                 
                 if (post.author._id !== user._id) {
@@ -77,8 +77,8 @@ const EditPost = () => {
                 formDataToSend.append('cover', coverImage);
             }
 
-            const response = await axios.put(
-                `http://localhost:5020/api/posts/${id}`, 
+            const response = await api.put(
+                `/posts/${id}`, 
                 formDataToSend,
                 {
                     headers: {

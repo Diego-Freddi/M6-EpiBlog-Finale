@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert, ListGroup, Image } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Comments = ({ postId }) => {
     const [comments, setComments] = useState([]);
@@ -12,7 +12,7 @@ const Comments = ({ postId }) => {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:5020/api/comments/post/${postId}`);
+            const response = await api.get(`/comments/post/${postId}`);
             setComments(response.data);
         } catch (error) {
             setError('Errore nel caricamento dei commenti');
@@ -26,7 +26,7 @@ const Comments = ({ postId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5020/api/comments', {
+            const response = await api.post('/comments', {
                 content: newComment,
                 author: user._id,
                 post: postId
@@ -41,7 +41,7 @@ const Comments = ({ postId }) => {
 
     const handleDelete = async (commentId) => {
         try {
-            await axios.delete(`http://localhost:5020/api/comments/${commentId}`);
+            await api.delete(`/comments/${commentId}`);
             setComments(comments.filter(comment => comment._id !== commentId));
         } catch (error) {
             setError('Errore nell\'eliminazione del commento');
@@ -84,8 +84,7 @@ const Comments = ({ postId }) => {
                                 <small className="text-muted">{comment.author.firstName} {comment.author.lastName} ha scritto:</small>
                             </div>
                             {comment.content}
-                            <div className="mt-2
-                            3">
+                            <div className="mt-2">
                                 <small className="text-muted">{new Date(comment.createdAt).toLocaleString()}</small>
                             </div>
                         </div>

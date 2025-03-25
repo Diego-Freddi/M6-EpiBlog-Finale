@@ -67,6 +67,9 @@ passport.use(new GoogleStrategy({
             if (user) {
                 // Se l'utente esiste con l'email ma non ha googleId, aggiorna il suo profilo
                 user.googleId = profile.id;
+                if (profile.photos && profile.photos[0].value) {
+                    user.profileImage = profile.photos[0].value;
+                }
                 await user.save();
             } else {
                 // Se l'utente non esiste affatto, creane uno nuovo
@@ -83,13 +86,13 @@ passport.use(new GoogleStrategy({
                 });
                 await user.save();
             }
+        } else {
+            // Se l'utente esiste già con googleId, aggiorna comunque le sue informazioni
+            if (profile.photos && profile.photos[0].value) {
+                user.profileImage = profile.photos[0].value;
+                await user.save();
+            }
         }
-
-        // Aggiorna sempre le informazioni del profilo
-        if (profile.photos && profile.photos[0].value) {
-            user.profileImage = profile.photos[0].value;
-        }
-        await user.save();
         
         return done(null, user);
     } catch (error) {

@@ -2,7 +2,7 @@ import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
-import axios from "axios";
+import api from "../utils/api";
 
 const CreatePost = () => {
     const [formData, setFormData] = useState({
@@ -54,8 +54,8 @@ const CreatePost = () => {
             formDataToSend.append('author', user._id);
             formDataToSend.append('cover', coverImage);
     
-            const response = await axios.post(
-                "http://localhost:5020/api/posts", 
+            const response = await api.post(
+                "/posts", 
                 formDataToSend,
                 {
                     headers: {
