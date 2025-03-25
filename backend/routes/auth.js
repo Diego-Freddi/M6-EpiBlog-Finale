@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/Users');
+const { sendWelcomeEmail } = require('../utils/emailService');
 
 // Middleware di autenticazione
 const auth = async (req, res, next) => {
@@ -78,6 +79,9 @@ router.post('/register', async (req, res) => {
             password: hashedPassword 
         });
         await newUser.save();
+
+        // Invia email di benvenuto
+        await sendWelcomeEmail(newUser);
 
         const userToSend = {
             _id: newUser._id,
