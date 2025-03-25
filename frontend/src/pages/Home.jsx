@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
-import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
+import api from '../utils/api';
 import PostCard from '../components/PostCard';
 
 const Home = () => {
@@ -9,12 +10,20 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5020/api/posts?page=${currentPage}&limit=6`);
+        const search = searchParams.get('search');
+        const queryString = new URLSearchParams({
+          page: currentPage,
+          limit: 6,
+          ...(search && { search })
+        }).toString();
+
+        const response = await api.get(`/posts?${queryString}`);
         setPosts(response.data.posts);
         setTotalPages(response.data.totalPages);
         setError(null);
@@ -27,7 +36,12 @@ const Home = () => {
       }
     };
     fetchPosts();
-  }, [currentPage]); // Aggiunto currentPage come dipendenza
+  }, [currentPage, searchParams]); // Aggiunti searchParams come dipendenza
+
+  // Reset della pagina quando cambia la ricerca
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchParams]);
 
   return (
     <Container className="mt-5">

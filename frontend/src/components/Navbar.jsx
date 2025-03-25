@@ -1,14 +1,23 @@
-import { Navbar, Container, Nav, NavDropdown, Image } from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown, Image, Form, Button } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const NavBar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchTerm)}`);
+    }
   };
 
 // Usa l'immagine profilo dell'utente se disponibile, altrimenti usa l'immagine di default
@@ -25,6 +34,16 @@ const profileImage = user?.profileImage ||
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
           </Nav>
+          <Form className="d-flex me-3" onSubmit={handleSearch}>
+            <Form.Control
+              type="search"
+              placeholder="Cerca per titolo o autore..."
+              className="me-2"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Button variant="outline-primary" type="submit">Cerca</Button>
+          </Form>
           <Nav>
             {user ? (
               <>

@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require("../models/Post");
 const { upload } = require("../utils/cloudinary.js");
 const { auth } = require("./auth");
+const User = require("../models/Users");
 
 //GET tutti i post
 router.get("/", async (req, res) => {
@@ -10,16 +11,43 @@ router.get("/", async (req, res) => {
     const perPage = parseInt(req.query.perPage) || 6;
     const skip = (page - 1) * perPage;
     const author = req.query.author ? { author: req.query.author } : {};
+    const search = req.query.search;
 
     try {
-        const totalPosts = await Post.countDocuments(author);
+        let query = {};
+        
+        if (search) {
+            // Prima cerchiamo gli autori che corrispondono alla ricerca
+            const authors = await User.find({
+                $or: [
+                    { firstName: { $regex: search, $options: 'i' } },
+                    { lastName: { $regex: search, $options: 'i' } }
+                ]
+            }).select('_id');
+
+            const authorIds = authors.map(author => author._id);
+
+            query = {
+                $or: [
+                    { title: { $regex: search, $options: 'i' } },
+                    { author: { $in: authorIds } }
+                ]
+            };
+        }
+
+        // Combina la query di ricerca con il filtro per autore
+        if (req.query.author) {
+            query = { ...query, ...author };
+        }
+
+        const totalPosts = await Post.countDocuments(query);
         const totalPages = Math.ceil(totalPosts / perPage);
 
-        const posts = await Post.find(author)
-        .populate("author", "firstName lastName")
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(perPage);
+        const posts = await Post.find(query)
+            .populate("author", "firstName lastName profileImage")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(perPage);
 
         res.status(200).json({
             posts,  
