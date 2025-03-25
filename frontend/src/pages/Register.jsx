@@ -23,7 +23,7 @@ const Register = () => {
         
         if (token) {
             try {
-                api.get('/api/auth/me', {
+                api.get('/auth/me', {
                     headers: { Authorization: `Bearer ${token}` }
                 }).then(response => {
                     login(response.data.user, token);
@@ -47,7 +47,7 @@ const Register = () => {
         }
         
         try {
-            const response = await api.post("/api/auth/register", {
+            const response = await api.post("/auth/register", {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 email: formData.email,
