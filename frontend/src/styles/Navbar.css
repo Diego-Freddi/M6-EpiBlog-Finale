@@ -119,4 +119,9 @@
 
 .dropdown-menu.show {
   animation: fadeIn 0.2s ease-out;
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
 } 

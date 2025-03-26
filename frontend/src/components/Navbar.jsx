@@ -28,7 +28,13 @@ const NavBar = () => {
   return (
     <Navbar expand="lg" className="mb-4">
       <Container>
-        <Navbar.Brand as={Link} to="/">EpiBlog</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          <img
+            src="/EpiBlog_Logo.png"
+            alt="EpiBlog Logo"
+            className="navbar-logo"
+          />
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
