@@ -203,4 +203,118 @@
     grid-template-columns: 1fr;
     gap: 12px;
   }
+}
+
+.editor-wrapper {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  transition: all 0.2s ease-out;
+}
+
+.editor-wrapper:focus-within {
+  background: #fff;
+  border-color: rgb(0, 122, 255);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+}
+
+.menu-bar {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.menu-bar button {
+  padding: 8px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-bar button:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.menu-bar button.is-active {
+  background-color: rgb(0, 122, 255);
+  border-color: rgb(0, 122, 255);
+  color: white;
+}
+
+.menu-bar button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.editor-content {
+  padding: 1rem;
+  min-height: 300px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.editor-content .ProseMirror {
+  outline: none;
+  min-height: 300px;
+}
+
+.editor-content p {
+  margin: 0.8rem 0;
+}
+
+.editor-content h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem;
+  color: #1a1a1a;
+}
+
+.editor-content h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 1.2rem 0 0.8rem;
+  color: #1a1a1a;
+}
+
+.editor-content ul,
+.editor-content ol {
+  margin: 0.8rem 0;
+  padding-left: 1.5rem;
+}
+
+.editor-content li {
+  margin: 0.4rem 0;
+}
+
+.editor-content ul {
+  list-style-type: disc;
+}
+
+.editor-content ol {
+  list-style-type: decimal;
+}
+
+.editor-content a {
+  color: rgb(0, 122, 255);
+  text-decoration: none;
+  border-bottom: 2px solid rgba(0, 122, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.editor-content a:hover {
+  border-bottom-color: rgb(0, 122, 255);
 } 

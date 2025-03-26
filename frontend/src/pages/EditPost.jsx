@@ -2,8 +2,99 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Form, Container, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
 import api from '../utils/api';
 import '../styles/EditPost.css';
+
+const MenuBar = ({ editor }) => {
+    if (!editor) {
+        return null;
+    }
+
+    return (
+        <div className="menu-bar">
+            <button
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                className={editor.isActive('bold') ? 'is-active' : ''}
+                title="Grassetto"
+                type="button"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                    <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                className={editor.isActive('italic') ? 'is-active' : ''}
+                title="Corsivo"
+                type="button"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="19" y1="4" x2="10" y2="4"></line>
+                    <line x1="14" y1="20" x2="5" y2="20"></line>
+                    <line x1="15" y1="4" x2="9" y2="20"></line>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+                title="Titolo 1"
+                type="button"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 12h16"></path>
+                    <path d="M4 6h16"></path>
+                    <path d="M4 18h12"></path>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+                title="Titolo 2"
+                type="button"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 12h16"></path>
+                    <path d="M4 18h12"></path>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleBulletList().run()}
+                className={editor.isActive('bulletList') ? 'is-active' : ''}
+                title="Lista puntata"
+                type="button"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                className={editor.isActive('orderedList') ? 'is-active' : ''}
+                title="Lista numerata"
+                type="button"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="10" y1="6" x2="21" y2="6"></line>
+                    <line x1="10" y1="12" x2="21" y2="12"></line>
+                    <line x1="10" y1="18" x2="21" y2="18"></line>
+                    <path d="M4 6h1v4"></path>
+                    <path d="M4 10h2"></path>
+                    <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path>
+                </svg>
+            </button>
+        </div>
+    );
+};
 
 const EditPost = () => {
     const { id } = useParams();
@@ -21,6 +112,45 @@ const EditPost = () => {
         readTime: {
             value: '',
             unit: 'minuti'
+        }
+    });
+
+    const editor = useEditor({
+        extensions: [
+            StarterKit.configure({
+                heading: {
+                    levels: [1, 2]
+                },
+                bulletList: {
+                    HTMLAttributes: {
+                        class: 'bullet-list'
+                    }
+                },
+                orderedList: {
+                    HTMLAttributes: {
+                        class: 'ordered-list'
+                    }
+                }
+            }),
+            Image.configure({
+                inline: true,
+                HTMLAttributes: {
+                    class: 'post-image'
+                }
+            }),
+            Link.configure({
+                openOnClick: true,
+                HTMLAttributes: {
+                    class: 'post-link'
+                }
+            })
+        ],
+        content: '',
+        onUpdate: ({ editor }) => {
+            setFormData(prev => ({
+                ...prev,
+                content: editor.getHTML()
+            }));
         }
     });
 
@@ -42,6 +172,11 @@ const EditPost = () => {
                     content: post.content,
                     readTime: post.readTime
                 });
+
+                if (editor && post.content) {
+                    editor.commands.setContent(post.content);
+                }
+
                 setPreviewUrl(post.cover);
             } catch (err) {
                 setError('Errore nel caricamento del post');
@@ -51,7 +186,7 @@ const EditPost = () => {
         };
 
         fetchPost();
-    }, [id, user._id, navigate]);
+    }, [id, user._id, navigate, editor]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -163,14 +298,10 @@ const EditPost = () => {
 
                     <Form.Group className="form-group">
                         <Form.Label className="form-label">Contenuto</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            className="textarea-content"
-                            value={formData.content}
-                            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                            placeholder="Scrivi il contenuto del tuo post..."
-                            required
-                        />
+                        <div className="editor-wrapper">
+                            <MenuBar editor={editor} />
+                            <EditorContent editor={editor} className="editor-content" />
+                        </div>
                     </Form.Group>
 
                     <Form.Group className="form-group">
@@ -201,7 +332,7 @@ const EditPost = () => {
                     </Form.Group>
 
                     <button type="submit" className="edit-post-button">
-                        Aggiorna Post
+                        Salva Modifiche
                     </button>
                 </Form>
             </div>

@@ -2,8 +2,93 @@ import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Form, Container, Row, Col, Alert } from "react-bootstrap";
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
 import api from "../utils/api";
 import '../styles/CreatePost.css';
+
+const MenuBar = ({ editor }) => {
+    if (!editor) {
+        return null;
+    }
+
+    return (
+        <div className="menu-bar">
+            <button
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                className={editor.isActive('bold') ? 'is-active' : ''}
+                title="Grassetto"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                    <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                className={editor.isActive('italic') ? 'is-active' : ''}
+                title="Corsivo"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="19" y1="4" x2="10" y2="4"></line>
+                    <line x1="14" y1="20" x2="5" y2="20"></line>
+                    <line x1="15" y1="4" x2="9" y2="20"></line>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+                title="Titolo 1"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 12h16"></path>
+                    <path d="M4 6h16"></path>
+                    <path d="M4 18h12"></path>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+                title="Titolo 2"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 12h16"></path>
+                    <path d="M4 18h12"></path>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleBulletList().run()}
+                className={editor.isActive('bulletList') ? 'is-active' : ''}
+                title="Lista puntata"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                </svg>
+            </button>
+            <button
+                onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                className={editor.isActive('orderedList') ? 'is-active' : ''}
+                title="Lista numerata"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="10" y1="6" x2="21" y2="6"></line>
+                    <line x1="10" y1="12" x2="21" y2="12"></line>
+                    <line x1="10" y1="18" x2="21" y2="18"></line>
+                    <path d="M4 6h1v4"></path>
+                    <path d="M4 10h2"></path>
+                    <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path>
+                </svg>
+            </button>
+        </div>
+    );
+};
 
 const CreatePost = () => {
     const [formData, setFormData] = useState({
@@ -22,6 +107,35 @@ const CreatePost = () => {
     const [error, setError] = useState("");
     const { user } = useAuth();
     const navigate = useNavigate();
+
+    const editor = useEditor({
+        extensions: [
+            StarterKit.configure({
+                heading: {
+                    levels: [1, 2]
+                }
+            }),
+            Image.configure({
+                inline: true,
+                allowBase64: true,
+            }),
+            Link.configure({
+                openOnClick: false,
+                HTMLAttributes: {
+                    rel: 'noopener noreferrer',
+                    class: 'text-blue-500 underline',
+                },
+            }),
+        ],
+        content: '',
+        onUpdate: ({ editor }) => {
+            const html = editor.getHTML();
+            setFormData(prev => ({
+                ...prev,
+                content: html
+            }));
+        },
+    });
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -130,14 +244,10 @@ const CreatePost = () => {
                     </Form.Group>
                     <Form.Group className="form-group">
                         <Form.Label className="form-label">Contenuto</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            className="textarea-content"
-                            value={formData.content}
-                            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                            placeholder="Scrivi il contenuto del tuo post..."
-                            required
-                        />
+                        <div className="editor-wrapper">
+                            <MenuBar editor={editor} />
+                            <EditorContent editor={editor} className="editor-content" />
+                        </div>
                     </Form.Group>
                     <Form.Group className="form-group">
                         <Form.Label className="form-label">Tempo di lettura</Form.Label>

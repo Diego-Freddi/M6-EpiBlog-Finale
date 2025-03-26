@@ -70,13 +70,53 @@
 
 .post-card-content {
   color: var(--text-secondary);
-  font-size: var(--font-size-sm);
+  font-size: 15px;
   line-height: 1.6;
+  margin: var(--spacing-md) 0;
+  overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
+  height: 72px;
+}
+
+.post-card-content h1,
+.post-card-content h2 {
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  display: inline;
+}
+
+.post-card-content p {
+  margin: 0;
+  display: inline;
+}
+
+.post-card-content ul,
+.post-card-content ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: inline;
+}
+
+.post-card-content li {
+  display: inline;
+}
+
+.post-card-content li:after {
+  content: ", ";
+}
+
+.post-card-content li:last-child:after {
+  content: "";
+}
+
+.post-card-content strong,
+.post-card-content em {
+  font-weight: inherit;
+  font-style: inherit;
 }
 
 .post-card-footer {

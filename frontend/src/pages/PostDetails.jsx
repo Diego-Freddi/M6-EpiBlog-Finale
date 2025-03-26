@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
 import axios from 'axios';
 import Comments from '../components/Comments';
 import '../styles/PostDetails.css';
@@ -14,12 +18,65 @@ const PostDetails = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
 
+    const editor = useEditor({
+        extensions: [
+            StarterKit.configure({
+                heading: {
+                    levels: [1, 2]
+                },
+                bulletList: {
+                    HTMLAttributes: {
+                        class: 'bullet-list'
+                    },
+                    keepMarks: true,
+                    keepAttributes: false,
+                },
+                orderedList: {
+                    HTMLAttributes: {
+                        class: 'ordered-list'
+                    },
+                    keepMarks: true,
+                    keepAttributes: false,
+                },
+                paragraph: {
+                    HTMLAttributes: {
+                        class: 'paragraph'
+                    }
+                }
+            }),
+            Image.configure({
+                inline: true,
+                allowBase64: true,
+                HTMLAttributes: {
+                    class: 'post-image'
+                }
+            }),
+            Link.configure({
+                openOnClick: true,
+                HTMLAttributes: {
+                    rel: 'noopener noreferrer',
+                    class: 'post-link'
+                },
+            }),
+        ],
+        content: '',
+        editable: false,
+        editorProps: {
+            attributes: {
+                class: 'post-editor-content'
+            }
+        }
+    });
+
     useEffect(() => {
         const fetchPost = async () => {
             try {
                 setLoading(true);
                 const response = await axios.get(`http://localhost:5020/api/posts/${id}`);
                 setPost(response.data);
+                if (editor && response.data.content) {
+                    editor.commands.setContent(response.data.content);
+                }
                 setError(null);
             } catch (error) {
                 console.error('Error fetching post:', error);
@@ -29,7 +86,7 @@ const PostDetails = () => {
             }
         };
         fetchPost();
-    }, [id]);
+    }, [id, editor]);
 
     const handleDelete = async () => {
         if (window.confirm('Sei sicuro di voler eliminare questo post?')) {
@@ -122,7 +179,7 @@ const PostDetails = () => {
                             </div>
                         </div>
                         <div className="post-details-content">
-                            {post.content}
+                            <EditorContent editor={editor} />
                         </div>
                     </div>
 
