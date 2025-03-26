@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Alert, Image, Modal } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
+import '../styles/Profile.css';
 
 const Profile = () => {
   const { user, login } = useAuth();
@@ -50,38 +51,6 @@ const Profile = () => {
       setPreviewUrl(URL.createObjectURL(file));
     }
   };
-
-  // const handleProfileUpdate = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     if (formData.newPassword && formData.newPassword !== formData.confirmPassword) {
-  //       setError('Le password non coincidono');
-  //       return;
-  //     }
-
-  //     const response = await axios.put(`http://localhost:5020/api/users/${user._id}`, {
-  //       firstName: formData.firstName,
-  //       lastName: formData.lastName,
-  //       currentPassword: formData.currentPassword,
-  //       newPassword: formData.newPassword
-  //     });
-
-  //     login(response.data); // Aggiorna i dati dell'utente nel context
-  //     setSuccess('Profilo aggiornato con successo');
-  //     setError('');
-
-  //     // Resetta i campi password
-  //     setFormData(prev => ({
-  //       ...prev,
-  //       currentPassword: '',
-  //       newPassword: '',
-  //       confirmPassword: ''
-  //     }));
-  //   } catch (err) {
-  //     setError(err.response?.data?.message || 'Errore durante aggiornamento del profilo');
-  //     setSuccess('');
-  //   }
-  // };
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -142,214 +111,135 @@ const Profile = () => {
     }
   };
 
-//   return (
-//     <Container className="mt-4">
-//       <h2 className="mb-4">Gestisci Profilo</h2>
-//       {error && <Alert variant="danger">{error}</Alert>}
-//       {success && <Alert variant="success">{success}</Alert>}
+  return (
+    <div className="profile-container">
+      <h1 className="profile-title">Il Tuo Profilo</h1>
+      
+      {error && (
+        <Alert variant="danger" className={`alert alert-danger`}>
+          {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert variant="success" className={`alert alert-success`}>
+          {success}
+        </Alert>
+      )}
 
-//       <Row className="justify-content-md-center">
-//         <Col md={6}>
-//           <Form onSubmit={handleProfileUpdate}>
-//             <Form.Group className="mb-3">
-//               <Form.Label>Nome</Form.Label>
-//               <Form.Control
-//                 type="text"
-//                 name="firstName"
-//                 value={formData.firstName}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </Form.Group>
+      <div className="profile-image-container">
+        <img
+          src={previewUrl}
+          alt="Profile"
+          className="profile-page-image"
+        />
+        <button
+          onClick={() => setShowPasswordModal(true)}
+          className="profile-image-button"
+        >
+          Cambia Avatar
+        </button>
+      </div>
 
-//             <Form.Group className="mb-3">
-//               <Form.Label>Cognome</Form.Label>
-//               <Form.Control
-//                 type="text"
-//                 name="lastName"
-//                 value={formData.lastName}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </Form.Group>
+      <Form className="profile-form" onSubmit={handleProfileUpdate}>
+        <Form.Group className="form-group">
+          <Form.Label className="form-label">Nome</Form.Label>
+          <Form.Control
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            className="form-control"
+          />
+        </Form.Group>
 
-//             <Form.Group className="mb-3">
-//               <Form.Label>Email</Form.Label>
-//               <Form.Control
-//                 type="email"
-//                 value={formData.email}
-//                 disabled
-//               />
-//             </Form.Group>
+        <Form.Group className="form-group">
+          <Form.Label className="form-label">Cognome</Form.Label>
+          <Form.Control
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            className="form-control"
+          />
+        </Form.Group>
 
-//             <h4 className="mt-4">Modifica Password</h4>
+        <Form.Group className="form-group">
+          <Form.Label className="form-label">Email</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="form-control"
+            disabled
+          />
+        </Form.Group>
 
-//             <Form.Group className="mb-3">
-//               <Form.Label>Password Attuale</Form.Label>
-//               <Form.Control
-//                 type="password"
-//                 name="currentPassword"
-//                 value={formData.currentPassword}
-//                 onChange={handleChange}
-//               />
-//             </Form.Group>
+        <div className="d-flex justify-content-between">
+          <Button type="submit" className="profile-button">
+            Salva Modifiche
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => setShowPasswordModal(true)}
+            className="profile-button secondary"
+          >
+            Modifica Password
+          </Button>
+        </div>
+      </Form>
 
-//             <Form.Group className="mb-3">
-//               <Form.Label>Nuova Password</Form.Label>
-//               <Form.Control
-//                 type="password"
-//                 name="newPassword"
-//                 value={formData.newPassword}
-//                 onChange={handleChange}
-//               />
-//             </Form.Group>
-
-//             <Form.Group className="mb-3">
-//               <Form.Label>Conferma Nuova Password</Form.Label>
-//               <Form.Control
-//                 type="password"
-//                 name="confirmPassword"
-//                 value={formData.confirmPassword}
-//                 onChange={handleChange}
-//               />
-//             </Form.Group>
-
-//             <Button variant="primary" type="submit" className="w-100">
-//               Aggiorna Profilo
-//             </Button>
-//           </Form>
-//         </Col>
-//       </Row>
-//     </Container>
-//   );
-// };
-
-return (
-  <Container className="mt-4">
-    <h2 className="mb-4 text-white">Gestione Profilo</h2>
-    {error && <Alert variant="danger">{error}</Alert>}
-    {success && <Alert variant="success">{success}</Alert>}
-    
-    <Row className="justify-content-md-center">
-      <Col md={6}>
-        <Form onSubmit={handleProfileUpdate} encType="multipart/form-data">
-          <div className="text-center mb-4">
-            <Image 
-              src={previewUrl} 
-              roundedCircle 
-              style={{ width: '150px', height: '150px', objectFit: 'cover' }} 
-              className="mb-3"
-            />
-            <Form.Group>
-              <Form.Label className="btn btn-outline-primary d-block">
-                Cambia immagine profilo
-                <Form.Control
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  style={{ display: 'none' }}
-                />
-              </Form.Label>
+      {/* Modal per la modifica della password */}
+      <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modifica Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {passwordError && <Alert variant="danger">{passwordError}</Alert>}
+          <Form onSubmit={handlePasswordUpdate}>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-dark">Password Attuale</Form.Label>
+              <Form.Control
+                type="password"
+                name="currentPassword"
+                value={passwordData.currentPassword}
+                onChange={handlePasswordChange}
+                required
+              />
             </Form.Group>
-          </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-white">Nome</Form.Label>
-            <Form.Control
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-dark">Nuova Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="newPassword"
+                value={passwordData.newPassword}
+                onChange={handlePasswordChange}
+                required
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-white">Cognome</Form.Label>
-            <Form.Control
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-dark">Conferma Nuova Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="confirmPassword"
+                value={passwordData.confirmPassword}
+                onChange={handlePasswordChange}
+                required
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-white">Email</Form.Label>
-            <Form.Control
-              type="email"
-              value={formData.email}
-              disabled
-            />
-          </Form.Group>
-
-          <div className="d-grid gap-2">
-            <Button variant="primary" type="submit">
-              Aggiorna Profilo
-            </Button>
-            <Button 
-              variant="outline-secondary" 
-              onClick={() => setShowPasswordModal(true)}
-            >
-              Modifica Password
-            </Button>
-          </div>
-        </Form>
-      </Col>
-    </Row>
-
-    {/* Modal per la modifica della password */}
-    <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)}>
-      <Modal.Header closeButton>
-        <Modal.Title>Modifica Password</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {passwordError && <Alert variant="danger">{passwordError}</Alert>}
-        <Form onSubmit={handlePasswordUpdate}>
-          <Form.Group className="mb-3">
-            <Form.Label className="text-dark">Password Attuale</Form.Label>
-            <Form.Control
-              type="password"
-              name="currentPassword"
-              value={passwordData.currentPassword}
-              onChange={handlePasswordChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label className="text-dark">Nuova Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="newPassword"
-              value={passwordData.newPassword}
-              onChange={handlePasswordChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label className="text-dark">Conferma Nuova Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="confirmPassword"
-              value={passwordData.confirmPassword}
-              onChange={handlePasswordChange}
-              required
-            />
-          </Form.Group>
-
-          <div className="d-grid">
-            <Button variant="primary" type="submit">
-              Aggiorna Password
-            </Button>
-          </div>
-        </Form>
-      </Modal.Body>
-    </Modal>
-  </Container>
-);
+            <div className="d-grid">
+              <Button variant="primary" type="submit">
+                Aggiorna Password
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
 };
 
 export default Profile;

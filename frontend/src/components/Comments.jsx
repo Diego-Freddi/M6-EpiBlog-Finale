@@ -64,7 +64,10 @@ const Comments = ({ postId }) => {
                             required
                         />
                     </Form.Group>
-                    <Button type="submit" variant="primary">
+                    <Button 
+                        type="submit" 
+                        className="comment-button"
+                    >
                         Pubblica commento
                     </Button>
                 </Form>

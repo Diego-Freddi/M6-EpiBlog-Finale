@@ -1,24 +1,38 @@
-import { Card, Button, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import '../styles/PostCard.css';
 
 const PostCard = ({ post }) => {
-  // Formatta il nome dell'autore
-  const authorName = post.author ? `${post.author.firstName} ${post.author.lastName}` : 'Autore sconosciuto';
   const navigate = useNavigate();
+  const authorName = post.author ? `${post.author.firstName} ${post.author.lastName}` : 'Autore sconosciuto';
+  const authorImage = post.author?.profileImage || 
+    `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${post.author?.firstName}+${post.author?.lastName}`;
 
   return (
-    <Card className="h-100 shadow-sm" onClick={() => navigate(`/posts/${post._id}`)} style={{ cursor: 'pointer' }}>
-      <Card.Img variant="top" src={post.cover} style= {{maxHeight:"200px", objectFit:"cover"}} />
-      <Card.Body>
-        <div className="d-flex justify-content-between">
-          <Badge bg="secondary">{post.category}</Badge>
-          <small className="text-muted">{post.readTime.value} {post.readTime.unit}</small>
+    <div className="post-card" onClick={() => navigate(`/posts/${post._id}`)}>
+      <img 
+        src={post.cover} 
+        alt={post.title}
+        className="post-card-image"
+      />
+      <div className="post-card-body">
+        <div className="post-card-header">
+          <span className="post-card-category">{post.category}</span>
+          <span className="post-card-read-time">{post.readTime.value} {post.readTime.unit}</span>
         </div>
-        <Card.Title>{post.title}</Card.Title>
-        <Card.Text>{post.content.substring(0,150)}...</Card.Text>
-        <Badge bg="dark" className="ms-2">{authorName}</Badge>
-      </Card.Body>
-    </Card>
+        <h3 className="post-card-title">{post.title}</h3>
+        <p className="post-card-content">{post.content}</p>
+        <div className="post-card-footer">
+          <div className="post-card-author">
+            <img 
+              src={authorImage} 
+              alt={authorName}
+              className="post-card-author-image"
+            />
+            <span className="post-card-author-name">{authorName}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

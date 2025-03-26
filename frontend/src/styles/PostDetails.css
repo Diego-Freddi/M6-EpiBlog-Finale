@@ -1,0 +1,264 @@
+.post-details {
+  padding: var(--spacing-xl) 0;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.post-details-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: var(--spacing-xl) var(--spacing-xl);
+  background: linear-gradient(to bottom, 
+    rgba(0,0,0,0.85) 0%,
+    rgba(0,0,0,0.75) 50%,
+    rgba(0,0,0,0) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.post-details-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: var(--spacing-md);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  max-width: 800px;
+}
+
+.post-details-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: 0;
+  opacity: 0.9;
+}
+
+.post-details-category {
+  background: rgba(255,255,255,0.2);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.post-details-read-time {
+  color: #ffffff;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.post-details-cover {
+  margin: 0 auto var(--spacing-xl);
+  width: 100%;
+  height: 70vh;
+  min-height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+.post-details-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-details-content-wrapper {
+  background: var(--primary-bg);
+  border-radius: 20px;
+  overflow: hidden;
+  margin: -100px auto 0;
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+}
+
+.post-details-content {
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  padding: var(--spacing-xl);
+  white-space: pre-wrap;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.post-details-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.post-details-author-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-color);
+}
+
+.post-details-author-info {
+  flex: 1;
+}
+
+.post-details-author-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.post-details-actions {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  display: flex;
+  gap: var(--spacing-sm);
+  z-index: 10;
+}
+
+.post-details-button {
+  padding: 8px 18px;
+  border-radius: 980px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: all 0.2s ease-out;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.post-details-button.edit {
+  background: rgba(255, 255, 255, 0.9);
+  color: #000000;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.post-details-button.edit:hover {
+  background: #ffffff;
+  transform: scale(1.02);
+}
+
+.post-details-button.edit:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.post-details-button.delete {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: none;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.post-details-button.delete:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.post-details-button.delete:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Loading State */
+.post-details-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Error State */
+.post-details-error {
+  background: rgba(255,59,48,0.1);
+  color: #ff3b30;
+  padding: var(--spacing-md);
+  border-radius: 16px;
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid rgba(255,59,48,0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .post-details {
+    padding: 0;
+  }
+
+  .post-details-header {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .post-details-title {
+    font-size: 2.5rem;
+  }
+
+  .post-details-cover {
+    height: 50vh;
+    min-height: 400px;
+  }
+
+  .post-details-content {
+    font-size: 16px;
+    padding: var(--spacing-lg);
+  }
+
+  .post-details-actions {
+    position: static;
+    margin: var(--spacing-md);
+    justify-content: flex-end;
+  }
+
+  .post-details-button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+/* Stile per il bottone dei commenti */
+.comment-button {
+  padding: 8px 18px;
+  border-radius: 980px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: all 0.2s ease-out;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000000;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.comment-button:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: scale(1.02);
+}
+
+.comment-button:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.8);
+} 

@@ -1,0 +1,70 @@
+/* Reset moderno in stile Apple */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  background-color: var(--primary-bg);
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* Rimuovi stili predefiniti dei link */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Rimuovi stili delle liste */
+ul, ol {
+  list-style: none;
+}
+
+/* Migliora la leggibilità del testo */
+@media (prefers-reduced-motion: no-preference) {
+  html:focus-within {
+   scroll-behavior: smooth;
+  }
+}
+
+/* Reset per accessibilità */
+[hidden] {
+  display: none !important;
+}
+
+[disabled] {
+  cursor: not-allowed;
+}
+
+:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+} 

@@ -19,7 +19,7 @@ const Home = () => {
         const search = searchParams.get('search');
         const queryString = new URLSearchParams({
           page: currentPage,
-          limit: 6,
+          limit: 9,
           ...(search && { search })
         }).toString();
 
@@ -36,52 +36,74 @@ const Home = () => {
       }
     };
     fetchPosts();
-  }, [currentPage, searchParams]); // Aggiunti searchParams come dipendenza
+  }, [currentPage, searchParams]);
 
-  // Reset della pagina quando cambia la ricerca
   useEffect(() => {
     setCurrentPage(1);
   }, [searchParams]);
 
+  if (loading) {
+    return (
+      <Container className="mt-5">
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Caricamento...</span>
+          </div>
+        </div>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="mt-5">
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <Container className="mt-5">
-      {loading && <p>Caricamento in corso...</p>}
-      {error && <p className="text-danger">{error}</p>}
-      <Row>
-        {!loading && posts && posts.length > 0 ? (
-          posts.map(post => (
-            <Col key={post._id} md={4} className="mb-4">
-              <PostCard post={post} />
-            </Col>
-          ))
-        ) : (
-          <Col>
-            <p>Nessun post disponibile</p>
-          </Col>
-        )}
-      </Row>
-
-      {totalPages > 1 && (
-        <div className="d-flex justify-content-center mt-4">
-          <Pagination>
-            <Pagination.Prev 
-              disabled={currentPage === 1} 
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-            />
-            {[...Array(totalPages)].map((_, idx) => (
-              <Pagination.Item 
-                key={idx + 1} 
-                active={idx + 1 === currentPage} 
-                onClick={() => setCurrentPage(idx + 1)}
-              >
-                {idx + 1}
-              </Pagination.Item>
+      {posts.length > 0 ? (
+        <>
+          <Row className="g-4">
+            {posts.map(post => (
+              <Col key={post._id} xs={12} md={6} lg={4}>
+                <PostCard post={post} />
+              </Col>
             ))}
-            <Pagination.Next 
-              disabled={currentPage === totalPages} 
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
-            />
-          </Pagination>
+          </Row>
+
+          {totalPages > 1 && (
+            <div className="d-flex justify-content-center mt-5">
+              <Pagination>
+                <Pagination.Prev 
+                  disabled={currentPage === 1} 
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+                />
+                {[...Array(totalPages)].map((_, idx) => (
+                  <Pagination.Item 
+                    key={idx + 1} 
+                    active={idx + 1 === currentPage} 
+                    onClick={() => setCurrentPage(idx + 1)}
+                  >
+                    {idx + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next 
+                  disabled={currentPage === totalPages} 
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
+                />
+              </Pagination>
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="text-center py-5">
+          <h3 className="text-muted">Nessun post disponibile</h3>
+          <p className="text-muted">Prova a modificare i tuoi criteri di ricerca</p>
         </div>
       )}
     </Container>

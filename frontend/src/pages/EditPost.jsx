@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { Form, Container, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../utils/api';
+import '../styles/EditPost.css';
 
 const EditPost = () => {
     const { id } = useParams();
@@ -96,73 +97,85 @@ const EditPost = () => {
         }
     };
 
-    if (loading) return <Container className="mt-4"><p>Caricamento...</p></Container>;
+    if (loading) return (
+        <Container>
+            <div className="edit-post-container">
+                <div className="loading-container">Caricamento...</div>
+            </div>
+        </Container>
+    );
 
     return (
         <Container>
-            <Row className="justify-content-center mt-5">
-                <Col xs={12} md={8}>
-                    <h2>Modifica Post</h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Titolo</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={formData.title}
-                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                required
-                            />
-                        </Form.Group>
+            <div className="edit-post-container">
+                <h1 className="edit-post-title">Modifica Post</h1>
+                {error && <Alert variant="danger">{error}</Alert>}
+                <Form onSubmit={handleSubmit} className="edit-post-form">
+                    <Form.Group className="form-group">
+                        <Form.Label className="form-label">Titolo</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={formData.title}
+                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                            placeholder="Inserisci il titolo del post..."
+                            required
+                        />
+                    </Form.Group>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Categoria</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={formData.category}
-                                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                required
-                            />
-                        </Form.Group>
+                    <Form.Group className="form-group">
+                        <Form.Label className="form-label">Categoria</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={formData.category}
+                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                            placeholder="Inserisci la categoria..."
+                            required
+                        />
+                    </Form.Group>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Immagine di copertina</Form.Label>
-                            {previewUrl && (
-                                <div className="mb-3">
-                                    <img 
-                                        src={previewUrl} 
-                                        alt="Cover preview" 
-                                        style={{
-                                            maxWidth: '200px',
-                                            display: 'block',
-                                            marginBottom: '1rem'
-                                        }}
-                                    />
-                                </div>
-                            )}
+                    <Form.Group className="form-group">
+                        <Form.Label className="form-label">Immagine di copertina</Form.Label>
+                        <div className="file-input-wrapper">
+                            <label className="file-input-button" htmlFor="cover-image">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                Cambia immagine
+                            </label>
                             <Form.Control
+                                id="cover-image"
                                 type="file"
                                 accept="image/*"
                                 onChange={handleImageChange}
                             />
-                            <Form.Text className="text-muted">
-                                Carica una nuova immagine solo se desideri modificare quella esistente
-                            </Form.Text>
-                        </Form.Group>
+                        </div>
+                        {previewUrl && (
+                            <div className="image-preview">
+                                <img 
+                                    src={previewUrl} 
+                                    alt="Preview" 
+                                />
+                            </div>
+                        )}
+                    </Form.Group>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Contenuto</Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={6}
-                                value={formData.content}
-                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                                required
-                            />
-                        </Form.Group>
+                    <Form.Group className="form-group">
+                        <Form.Label className="form-label">Contenuto</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            className="textarea-content"
+                            value={formData.content}
+                            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                            placeholder="Scrivi il contenuto del tuo post..."
+                            required
+                        />
+                    </Form.Group>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Tempo di lettura (minuti)</Form.Label>
+                    <Form.Group className="form-group">
+                        <Form.Label className="form-label">Tempo di lettura</Form.Label>
+                        <div className="read-time-group">
                             <Form.Control
                                 type="number"
                                 value={formData.readTime.value}
@@ -170,16 +183,28 @@ const EditPost = () => {
                                     ...formData,
                                     readTime: { ...formData.readTime, value: parseInt(e.target.value) }
                                 })}
+                                placeholder="Tempo di lettura"
                                 required
                             />
-                        </Form.Group>
+                            <Form.Select
+                                value={formData.readTime.unit}
+                                onChange={(e) => setFormData({
+                                    ...formData,
+                                    readTime: { ...formData.readTime, unit: e.target.value }
+                                })}
+                                required
+                            >
+                                <option value="minuti">Minuti</option>
+                                <option value="ore">Ore</option>
+                            </Form.Select>
+                        </div>
+                    </Form.Group>
 
-                        <Button variant="primary" type="submit">
-                            Aggiorna Post
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
+                    <button type="submit" className="edit-post-button">
+                        Aggiorna Post
+                    </button>
+                </Form>
+            </div>
         </Container>
     );
 };

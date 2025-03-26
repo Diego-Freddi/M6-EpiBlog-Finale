@@ -1,3 +1,23 @@
+/* Stili globali */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stili per il contenitore principale */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* Stili per il contenuto principale */
+main {
+  flex: 1;
+  padding: var(--spacing-xl) 0;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
