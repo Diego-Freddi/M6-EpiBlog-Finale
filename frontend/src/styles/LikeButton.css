@@ -32,17 +32,11 @@
 }
 
 .like-button.liked svg {
-    animation: likeAnimation 0.3s ease forwards;
+    animation: likeAnimation 0.3s ease;
 }
 
 @keyframes likeAnimation {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 } 

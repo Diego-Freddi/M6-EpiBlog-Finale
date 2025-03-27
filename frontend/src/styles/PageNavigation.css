@@ -37,14 +37,6 @@
   right: 40px;
 }
 
-/* .page-nav-button:hover {
-  background: rgba(44, 62, 80, 0.95);
-  color: #ffffff;
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
-  animation: none;
-} */
-
 .page-nav-button.disabled {
   opacity: 0.5;
   cursor: not-allowed;
