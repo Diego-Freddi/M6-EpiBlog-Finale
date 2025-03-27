@@ -61,13 +61,9 @@ const PostCard = ({ post }) => {
     }
   });
 
-  // Funzione per troncare il contenuto HTML
-  const truncateHTML = (html, maxLength = 150) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    let text = div.textContent || div.innerText || '';
-    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-  };
+  if (!editor) {
+    return null;
+  }
 
   return (
     <div className="post-card" onClick={handleClick}>
@@ -83,7 +79,7 @@ const PostCard = ({ post }) => {
         </div>
         <h3 className="post-card-title">{post.title}</h3>
         <div className="post-card-content">
-          {truncateHTML(post.content)}
+          <EditorContent editor={editor} />
         </div>
         <div className="post-card-footer">
           <div className="post-card-author">
