@@ -2,6 +2,7 @@ import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Form, Container, Row, Col, Alert } from "react-bootstrap";
+import Select from 'react-select';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
@@ -188,6 +189,11 @@ const CreatePost = () => {
         }
     };
 
+    const unitOptions = [
+        { value: 'minuti', label: 'Minuti' },
+        { value: 'ore', label: 'Ore' }
+    ];
+
     return (
         <Container>
             <div className="create-post-container">
@@ -259,21 +265,24 @@ const CreatePost = () => {
                                 placeholder="Tempo di lettura"
                                 required
                             />
-                            <Form.Select
-                                value={formData.readTime.unit}
-                                onChange={(e) => setFormData({ 
+                            <Select
+                                value={unitOptions.find(option => option.value === formData.readTime.unit)}
+                                onChange={(option) => setFormData({ 
                                     ...formData, 
-                                    readTime: { ...formData.readTime, unit: e.target.value } 
+                                    readTime: { ...formData.readTime, unit: option.value } 
                                 })}
-                                required
-                            >
-                                <option value="minuti">Minuti</option>
-                                <option value="ore">Ore</option>
-                            </Form.Select>
+                                options={unitOptions}
+                                className="react-select-container"
+                                classNamePrefix="react-select"
+                                isRequired
+                            />
                         </div>
                     </Form.Group>
-                    <button type="submit" className="create-post-button">
-                        Crea Post
+                    <button
+                        type="submit"
+                        className="create-post-button primary-action"
+                    >
+                        Pubblica Post
                     </button>
                 </Form>
             </div>

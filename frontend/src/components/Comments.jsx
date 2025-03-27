@@ -50,7 +50,7 @@ const Comments = ({ postId }) => {
 
     return (
         <div className="mt-5">
-            <h4 className="text-white">Commenti</h4>
+            <h4 className="comments-title">Commenti</h4>
             {error && <Alert variant="danger">{error}</Alert>}
             {user && (
                 <Form onSubmit={handleSubmit}>
@@ -62,42 +62,49 @@ const Comments = ({ postId }) => {
                             onChange={(e) => setNewComment(e.target.value)}
                             placeholder="Scrivi un commento..."
                             required
+                            className="comment-input"
                         />
                     </Form.Group>
                     <Button 
                         type="submit" 
-                        className="comment-button"
+                        className="comment-button primary-action"
                     >
                         Pubblica commento
                     </Button>
                 </Form>
             )}
-            <ListGroup className="mt-4">
+            <ListGroup className="mt-4 comments-list">
                 {comments.map(comment => (
-                    <ListGroup.Item key={comment._id} className="d-flex justify-content-between align-items-center">
-                        <div className="ms-2 me-auto">
-                            <div className="mb-2 d-flex align-items-center">
+                    <ListGroup.Item key={comment._id} className="comment-item">
+                        <div className="comment-content">
+                            <div className="comment-header">
                                 <Image
                                     src={comment.author.profileImage || `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${comment.author.firstName}+${comment.author.lastName}`}
                                     roundedCircle
                                     width={40}
                                     height={40} 
-                                    className="me-2"
+                                    className="comment-author-image"
                                 />
-                                <small className="text-muted">{comment.author.firstName} {comment.author.lastName} ha scritto:</small>
+                                <div className="comment-author-info">
+                                    <div className="comment-author-name">
+                                        {comment.author.firstName} {comment.author.lastName}
+                                    </div>
+                                    <div className="comment-date">
+                                        {new Date(comment.createdAt).toLocaleString()}
+                                    </div>
+                                </div>
                             </div>
-                            {comment.content}
-                            <div className="mt-2">
-                                <small className="text-muted">{new Date(comment.createdAt).toLocaleString()}</small>
+                            <div className="comment-text">
+                                {comment.content}
                             </div>
                         </div>
                         {user && user._id === comment.author._id && (
                             <Button
                                 variant="outline-danger"
                                 size="sm"
+                                className="danger-action"
                                 onClick={() => handleDelete(comment._id)}>
-                                    Cancella
-                                <i className="fas fa-trash"></i>
+                                Cancella
                             </Button>
                         )}
                     </ListGroup.Item>

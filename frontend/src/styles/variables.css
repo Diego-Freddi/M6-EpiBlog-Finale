@@ -10,6 +10,15 @@
   --border-color: #d2d2d7;
   --error-color: #de071c;
   --success-color: #29cc41;
+  --card-bg: #ffffff;
+  --navbar-bg: rgba(255, 255, 255, 0.8);
+  --post-bg: #ffffff;
+  --jumbo-bg: #2c3e50;
+  --jumbo-text: #d7d7e1;
+  --footer-bg: #2c3e50;
+  --footer-text: #d7d7e1;
+  --pagination-bg: rgba(44, 62, 80, 0.8);
+  --pagination-text: #d7d7e1;
 
   /* Typography - San Francisco-like */
   --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
@@ -50,4 +59,71 @@
   --z-dropdown: 1010;
   --z-modal: 1020;
   --z-toast: 1030;
+}
+
+/* Dark mode overrides */
+:root.dark-mode {
+  --primary-bg: #1a1a1a;
+  --secondary-bg: #2c2c2c;
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --text-tertiary: #86868b;
+  --border-color: #3d3d3d;
+  --card-bg: #2c2c2c;
+  --navbar-bg: rgba(28, 28, 28, 0.95);
+  --post-bg: #2c2c2c;
+  --jumbo-bg: #1c1c1c;
+  --jumbo-text: #f5f5f7;
+  --footer-bg: #1c1c1c;
+  --footer-text: #f5f5f7;
+  --pagination-bg: rgba(28, 28, 28, 0.9);
+  --pagination-text: #f5f5f7;
+  
+  /* Specific overrides for components */
+  --accent-color: #3b9cff;
+  --accent-hover: #4da5ff;
+  --error-color: #ff4d4d;
+  --success-color: #4caf50;
+
+  /* Button styles */
+  --button-bg: transparent;
+  --button-color: var(--text-secondary);
+  --button-hover-bg: rgba(128, 128, 128, 0.1);
+  --button-hover-color: var(--text-primary);
+  --button-border: 1px solid var(--border-color);
+}
+
+/* Global button styles for dark mode */
+:root.dark-mode button:not(.nav-link):not([class*="navbar"]):not(.theme-toggle):not(.like-button) {
+  background: var(--button-bg);
+  color: var(--button-color);
+  border: var(--button-border);
+}
+
+:root.dark-mode button:not(.nav-link):not([class*="navbar"]):not(.theme-toggle):not(.like-button):hover {
+  background: var(--button-hover-bg);
+  color: var(--button-hover-color);
+}
+
+/* Exception for primary action buttons */
+:root.dark-mode button.primary-action {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+}
+
+:root.dark-mode button.primary-action:hover {
+  background: var(--accent-hover);
+  color: white;
+}
+
+/* Exception for danger buttons */
+:root.dark-mode button.danger-action {
+  color: var(--error-color);
+  border-color: var(--error-color);
+}
+
+:root.dark-mode button.danger-action:hover {
+  background: var(--error-color);
+  color: white;
 } 

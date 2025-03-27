@@ -19,6 +19,7 @@
 .env.test.local
 .env.production.local
 Guida.md
+STYLE_ROADMAP.md
 
 npm-debug.log*
 yarn-debug.log*

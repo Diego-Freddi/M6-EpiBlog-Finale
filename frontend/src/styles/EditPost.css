@@ -1,7 +1,7 @@
 .edit-post-container {
   max-width: 800px;
   margin: 40px auto;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--card-bg);
   border-radius: 20px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(20px);
@@ -11,7 +11,7 @@
 .edit-post-title {
   font-size: 24px;
   font-weight: 600;
-  color: #000;
+  color: var(--text-primary);
   margin-bottom: 24px;
   letter-spacing: -0.02em;
   padding: 24px 24px 0;
@@ -28,7 +28,7 @@
 .form-label {
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 8px;
   letter-spacing: -0.01em;
   display: block;
@@ -36,24 +36,24 @@
 
 .form-control {
   width: 100%;
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 12px;
-  color: #000;
+  color: var(--text-primary);
   font-size: 15px;
   transition: all 0.2s ease-out;
 }
 
 .form-control:focus {
-  background: #fff;
-  border-color: rgb(0, 122, 255);
-  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+  background: var(--primary-bg);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(59, 156, 255, 0.15);
   outline: none;
 }
 
 .form-control::placeholder {
-  color: #999;
+  color: var(--text-tertiary);
 }
 
 .image-preview {
@@ -61,7 +61,7 @@
   border-radius: 12px;
   overflow: hidden;
   max-width: 300px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 .image-preview img {
@@ -86,9 +86,9 @@
   letter-spacing: -0.01em;
   transition: all 0.2s ease-out;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: rgba(255, 255, 255, 0.9);
-  color: #000000;
-  border: none;
+  background: var(--secondary-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   display: inline-flex;
   align-items: center;
@@ -97,13 +97,13 @@
 }
 
 .file-input-button:hover {
-  background: #ffffff;
+  background: var(--primary-bg);
   transform: scale(1.02);
 }
 
 .file-input-button:active {
   transform: scale(0.98);
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--secondary-bg);
 }
 
 .file-input-button svg {
@@ -119,22 +119,20 @@
   letter-spacing: -0.01em;
   transition: all 0.2s ease-out;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: rgba(255, 255, 255, 0.9);
-  color: #000000;
-  border: none;
+  background: rgba(0, 0, 0, 0.03);
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  display: block;
-  margin-left: auto;
 }
 
 .edit-post-button:hover {
-  background: #ffffff;
+  background: rgba(0, 0, 0, 0.05);
   transform: scale(1.02);
 }
 
 .edit-post-button:active {
   transform: scale(0.98);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .textarea-content {
@@ -206,52 +204,49 @@
 }
 
 .editor-wrapper {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: var(--secondary-bg);
   overflow: hidden;
   transition: all 0.2s ease-out;
 }
 
 .editor-wrapper:focus-within {
-  background: #fff;
-  border-color: rgb(0, 122, 255);
-  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+  background: var(--primary-bg);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(59, 156, 255, 0.15);
 }
 
 .menu-bar {
   padding: 0.75rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--primary-bg);
 }
 
 .menu-bar button {
   padding: 8px 12px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background-color: white;
+  background-color: var(--secondary-bg);
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);
   transition: all 0.2s ease-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .menu-bar button:hover {
-  background-color: #f8f9fa;
+  background-color: var(--primary-bg);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .menu-bar button.is-active {
-  background-color: rgb(0, 122, 255);
-  border-color: rgb(0, 122, 255);
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
   color: white;
 }
 
@@ -263,8 +258,9 @@
 .editor-content {
   padding: 1rem;
   min-height: 300px;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
 
 .editor-content .ProseMirror {

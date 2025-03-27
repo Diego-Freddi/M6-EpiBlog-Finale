@@ -331,7 +331,10 @@ const EditPost = () => {
                         </div>
                     </Form.Group>
 
-                    <button type="submit" className="edit-post-button">
+                    <button
+                        type="submit"
+                        className="edit-post-button primary-action"
+                    >
                         Salva Modifiche
                     </button>
                 </Form>

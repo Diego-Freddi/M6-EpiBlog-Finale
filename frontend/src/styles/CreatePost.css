@@ -1,7 +1,7 @@
 .create-post-container {
   max-width: 800px;
   margin: 40px auto;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--card-bg);
   border-radius: 20px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(20px);
@@ -11,7 +11,7 @@
 .create-post-title {
   font-size: 24px;
   font-weight: 600;
-  color: #000;
+  color: var(--text-primary);
   margin-bottom: 24px;
   letter-spacing: -0.02em;
   padding: 24px 24px 0;
@@ -28,7 +28,7 @@
 .form-label {
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 8px;
   letter-spacing: -0.01em;
   display: block;
@@ -36,24 +36,29 @@
 
 .form-control {
   width: 100%;
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 12px;
-  color: #000;
+  color: var(--text-primary);
   font-size: 15px;
   transition: all 0.2s ease-out;
 }
 
 .form-control:focus {
-  background: #fff;
-  border-color: rgb(0, 122, 255);
-  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+  background: var(--primary-bg);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(59, 156, 255, 0.15);
   outline: none;
 }
 
 .form-control::placeholder {
-  color: #999;
+  color: var(--text-tertiary);
+}
+
+/* Dark mode input text color */
+:root.dark-mode .form-control {
+  color: var(--text-primary);
 }
 
 .image-preview {
@@ -86,9 +91,9 @@
   letter-spacing: -0.01em;
   transition: all 0.2s ease-out;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: rgba(255, 255, 255, 0.9);
-  color: #000000;
-  border: none;
+  background: var(--secondary-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   display: inline-flex;
   align-items: center;
@@ -97,13 +102,13 @@
 }
 
 .file-input-button:hover {
-  background: #ffffff;
+  background: var(--primary-bg);
   transform: scale(1.02);
 }
 
 .file-input-button:active {
   transform: scale(0.98);
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--secondary-bg);
 }
 
 .file-input-button svg {
@@ -119,12 +124,20 @@
   letter-spacing: -0.01em;
   transition: all 0.2s ease-out;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: rgba(255, 255, 255, 0.9);
-  color: #000000;
-  border: none;
+  background: rgba(0, 0, 0, 0.03);
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  display: block;
-  margin-left: auto;
+}
+
+.create-post-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.02);
+}
+
+.create-post-button:active {
+  transform: scale(0.98);
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .textarea-content {
@@ -141,11 +154,11 @@
 
 .form-select {
   width: 100%;
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 12px;
-  color: #000;
+  color: var(--text-primary);
   font-size: 15px;
   height: auto;
   cursor: pointer;
@@ -159,10 +172,22 @@
 }
 
 .form-select:focus {
-  background-color: #fff;
-  border-color: rgb(0, 122, 255);
-  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+  background-color: var(--primary-bg);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(59, 156, 255, 0.15);
   outline: none;
+}
+
+/* Dark mode styles for select dropdown */
+:root.dark-mode .form-select {
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+:root.dark-mode .form-select option {
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
 }
 
 @media (max-width: 768px) {
@@ -187,96 +212,154 @@
 }
 
 .editor-wrapper {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    background-color: rgba(0, 0, 0, 0.03);
-    overflow: hidden;
-    transition: all 0.2s ease-out;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--secondary-bg);
+  overflow: hidden;
+  transition: all 0.2s ease-out;
 }
 
 .editor-wrapper:focus-within {
-    background: #fff;
-    border-color: rgb(0, 122, 255);
-    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+  background: var(--primary-bg);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(59, 156, 255, 0.15);
 }
 
 .menu-bar {
-    padding: 0.75rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  background-color: var(--primary-bg);
 }
 
 .menu-bar button {
-    padding: 8px 12px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background-color: white;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    color: #666;
-    transition: all 0.2s ease-out;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--secondary-bg);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.2s ease-out;
 }
 
 .menu-bar button:hover {
-    background-color: #f8f9fa;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: var(--primary-bg);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .menu-bar button.is-active {
-    background-color: rgb(0, 122, 255);
-    border-color: rgb(0, 122, 255);
-    color: white;
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
 }
 
 .editor-content {
-    padding: 1rem;
-    min-height: 300px;
-    font-size: 15px;
-    line-height: 1.5;
+  padding: 1rem;
+  min-height: 300px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
 
 .editor-content p {
-    margin: 0;
-    padding: 0.5rem 0;
+  margin: 0;
+  padding: 0.5rem 0;
 }
 
 .editor-content h1 {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 1rem 0;
-    color: #000;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 1rem 0;
+  color: #000;
 }
 
 .editor-content h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0.75rem 0;
-    color: #000;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0.75rem 0;
+  color: #000;
 }
 
 .editor-content ul,
 .editor-content ol {
-    padding-left: 1.5rem;
-    margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
 }
 
 .editor-content li {
-    margin: 0.25rem 0;
+  margin: 0.25rem 0;
 }
 
 .editor-content a {
-    color: rgb(0, 122, 255);
-    text-decoration: underline;
+  color: rgb(0, 122, 255);
+  text-decoration: underline;
 }
 
 .editor-content img {
-    max-width: 100%;
-    height: auto;
-    margin: 1rem 0;
-    border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+/* React Select styles */
+.react-select-container {
+  width: 100%;
+}
+
+.react-select__control {
+  background: var(--secondary-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  min-height: 45px !important;
+  box-shadow: none !important;
+}
+
+.react-select__control:hover {
+  border-color: var(--border-color) !important;
+}
+
+.react-select__control--is-focused {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 4px rgba(59, 156, 255, 0.15) !important;
+}
+
+.react-select__menu {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  margin-top: 4px !important;
+}
+
+.react-select__option {
+  color: var(--text-primary) !important;
+  padding: 8px 12px !important;
+}
+
+.react-select__option--is-focused {
+  background: var(--secondary-bg) !important;
+}
+
+.react-select__option--is-selected {
+  background: var(--accent-color) !important;
+  color: white !important;
+}
+
+.react-select__single-value {
+  color: var(--text-primary) !important;
+}
+
+/* Dark mode input text color */
+:root.dark-mode .editor-content {
+  color: var(--text-primary);
+}
+
+:root.dark-mode .editor-content h1,
+:root.dark-mode .editor-content h2 {
+  color: var(--text-primary);
 } 

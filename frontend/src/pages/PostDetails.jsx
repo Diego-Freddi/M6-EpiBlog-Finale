@@ -136,13 +136,13 @@ const PostDetails = () => {
                             {isAuthor && (
                                 <div className="post-details-actions">
                                     <Button 
-                                        className="post-details-button edit"
+                                        className="post-details-button edit primary-action"
                                         onClick={() => navigate(`/posts/edit/${post._id}`)}
                                     >
                                         Modifica
                                     </Button>
                                     <Button 
-                                        className="post-details-button delete"
+                                        className="post-details-button delete danger-action"
                                         onClick={handleDelete}
                                     >
                                         Elimina

@@ -1,5 +1,5 @@
 .body-jumbotron {
-  background: #2c3e50;
+  background: var(--jumbo-bg);
   backdrop-filter: saturate(180%) blur(20px);
   padding: var(--spacing-2xl) 0;
   margin-bottom: var(--spacing-xl);
@@ -32,7 +32,7 @@
 
 .body-jumbotron-title {
   font-size: var(--font-size-4xl);
-  background: linear-gradient(135deg, #d7d7e1 0%, var(--accent-color) 100%);
+  background: linear-gradient(135deg, var(--jumbo-text) 0%, var(--accent-color) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: var(--spacing-md);
@@ -42,7 +42,7 @@
 
 .body-jumbotron-subtitle {
   font-size: var(--font-size-lg);
-  color: #d7d7e1;
+  color: var(--jumbo-text);
   margin-bottom: var(--spacing-xl);
   line-height: 1.5;
   font-weight: 400;
@@ -52,7 +52,7 @@
 }
 
 .body-footer {
-  background: #2c3e50;
+  background: var(--footer-bg);
   backdrop-filter: saturate(180%) blur(20px);
   padding: var(--spacing-xl) 0;
   margin-top: var(--spacing-2xl);
@@ -74,7 +74,7 @@
 }
 
 .body-footer-text {
-  color: #d7d7e1;
+  color: var(--footer-text);
   font-size: var(--font-size-sm);
   font-weight: 400;
 }
@@ -85,7 +85,7 @@
 }
 
 .body-footer-link {
-  color: #d7d7e1;
+  color: var(--footer-text);
   text-decoration: none;
   transition: var(--transition-base);
   font-size: var(--font-size-sm);
@@ -138,9 +138,9 @@
 
 .pagination .page-item .page-link {
   border: none;
-  background: rgba(44, 62, 80, 0.8);
+  background: var(--pagination-bg);
   backdrop-filter: saturate(180%) blur(20px);
-  color: #d7d7e1;
+  color: var(--pagination-text);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
