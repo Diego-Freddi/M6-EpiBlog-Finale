@@ -132,8 +132,15 @@ const Profile = () => {
           alt="Profile"
           className="profile-page-image"
         />
+        <input 
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          style={{ display: 'none' }}
+          id="profileImageInput"
+        />
         <button
-          onClick={() => setShowPasswordModal(true)}
+          onClick={() => document.getElementById('profileImageInput').click()}
           className="profile-image-button"
         >
           Cambia Avatar
