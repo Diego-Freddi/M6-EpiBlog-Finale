@@ -177,4 +177,53 @@ router.delete("/:id", auth, async (req, res) => {
     }
 });
 
+//POST aggiunge un like al post
+router.post("/:id/like", auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ message: "Post non trovato" });
+        }
+
+        // Controlla se l'utente ha già messo like
+        const alreadyLiked = post.likes.includes(req.userId);
+        
+        if (alreadyLiked) {
+            // Se ha già messo like, lo rimuove
+            post.likes = post.likes.filter(id => id.toString() !== req.userId);
+        } else {
+            // Se non ha ancora messo like, lo aggiunge
+            post.likes.push(req.userId);
+        }
+
+        await post.save();
+        
+        res.json({ 
+            likes: post.likes.length,
+            isLiked: !alreadyLiked
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+//GET ottiene lo stato del like per un post
+router.get("/:id/like", auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ message: "Post non trovato" });
+        }
+
+        const isLiked = post.likes.includes(req.userId);
+        
+        res.json({ 
+            likes: post.likes.length,
+            isLiked
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;

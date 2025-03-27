@@ -6,9 +6,11 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
-import axios from 'axios';
+import api from '../utils/api';
 import Comments from '../components/Comments';
+import LikeButton from '../components/LikeButton';
 import '../styles/PostDetails.css';
+import '../styles/LikeButton.css';
 
 const PostDetails = () => {
     const [post, setPost] = useState({});
@@ -72,7 +74,7 @@ const PostDetails = () => {
         const fetchPost = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:5020/api/posts/${id}`);
+                const response = await api.get(`/posts/${id}`);
                 setPost(response.data);
                 if (editor && response.data.content) {
                     editor.commands.setContent(response.data.content);
@@ -91,7 +93,7 @@ const PostDetails = () => {
     const handleDelete = async () => {
         if (window.confirm('Sei sicuro di voler eliminare questo post?')) {
             try {
-                await axios.delete(`http://localhost:5020/api/posts/${id}`);
+                await api.delete(`/posts/${id}`);
                 navigate('/my-posts');
             } catch (err) {
                 setError('Errore durante l\'eliminazione del post');
@@ -180,6 +182,9 @@ const PostDetails = () => {
                         </div>
                         <div className="post-details-content">
                             <EditorContent editor={editor} />
+                        </div>
+                        <div className="post-details-footer">
+                            <LikeButton postId={id} />
                         </div>
                     </div>
 

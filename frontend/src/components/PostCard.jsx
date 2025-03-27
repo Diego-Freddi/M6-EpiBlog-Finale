@@ -3,13 +3,24 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
+import LikeButton from './LikeButton';
 import '../styles/PostCard.css';
+import '../styles/LikeButton.css';
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
   const authorName = post.author ? `${post.author.firstName} ${post.author.lastName}` : 'Autore sconosciuto';
   const authorImage = post.author?.profileImage || 
     `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${post.author?.firstName}+${post.author?.lastName}`;
+
+  const handleClick = (e) => {
+    // Se il click è sul LikeButton, non navigare
+    if (e.target.closest('.like-button')) {
+      e.stopPropagation();
+      return;
+    }
+    navigate(`/posts/${post._id}`);
+  };
 
   const editor = useEditor({
     extensions: [
@@ -59,7 +70,7 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <div className="post-card" onClick={() => navigate(`/posts/${post._id}`)}>
+    <div className="post-card" onClick={handleClick}>
       <img 
         src={post.cover} 
         alt={post.title}
@@ -83,6 +94,7 @@ const PostCard = ({ post }) => {
             />
             <span className="post-card-author-name">{authorName}</span>
           </div>
+          <LikeButton postId={post._id} />
         </div>
       </div>
     </div>
