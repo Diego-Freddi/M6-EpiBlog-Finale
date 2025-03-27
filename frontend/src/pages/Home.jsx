@@ -3,6 +3,7 @@ import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import api from '../utils/api';
 import PostCard from '../components/PostCard';
+import '../styles/Layout.css';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -44,7 +45,7 @@ const Home = () => {
 
   if (loading) {
     return (
-      <Container className="mt-5">
+      <Container>
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Caricamento...</span>
@@ -56,7 +57,7 @@ const Home = () => {
 
   if (error) {
     return (
-      <Container className="mt-5">
+      <Container>
         <div className="alert alert-danger" role="alert">
           {error}
         </div>
@@ -65,7 +66,7 @@ const Home = () => {
   }
 
   return (
-    <Container className="mt-5">
+    <Container>
       {posts.length > 0 ? (
         <>
           <Row className="g-4">

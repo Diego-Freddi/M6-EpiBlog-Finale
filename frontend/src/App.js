@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { AuthProvider } from './contexts/AuthContext';
 import NavBar from './components/Navbar';
+import Layout from './components/Layout';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -17,7 +18,7 @@ function App() {
     <Router>
       <AuthProvider>
         <NavBar />
-        <Container>
+        <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -28,7 +29,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/posts/edit/:id" element={<EditPost />} />
           </Routes>
-        </Container>
+        </Layout>
       </AuthProvider>
     </Router>
   );

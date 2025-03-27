@@ -26,7 +26,7 @@ const NavBar = () => {
     `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${user?.firstName}+${user?.lastName}`;
 
   return (
-    <Navbar expand="lg" className="mb-4">
+    <Navbar expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">
           <img
