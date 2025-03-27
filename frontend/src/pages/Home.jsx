@@ -3,6 +3,7 @@ import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import api from '../utils/api';
 import PostCard from '../components/PostCard';
+import PageNavigation from '../components/PageNavigation';
 import '../styles/Layout.css';
 
 const Home = () => {
@@ -67,6 +68,12 @@ const Home = () => {
 
   return (
     <Container>
+      <PageNavigation 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+      
       {posts.length > 0 ? (
         <>
           <Row className="g-4">
