@@ -183,16 +183,16 @@ const Profile = () => {
         </Form.Group>
 
         <div className="d-flex justify-content-between">
-          <Button type="submit" className="profile-button">
+          <button type="submit" className="profile-button">
             Salva Modifiche
-          </Button>
-          <Button
-            variant="danger"
+          </button>
+          <button
+            type="button"
             onClick={() => setShowPasswordModal(true)}
-            className="profile-button secondary"
+            className="profile-button"
           >
             Modifica Password
-          </Button>
+          </button>
         </div>
       </Form>
 
@@ -202,45 +202,54 @@ const Profile = () => {
           <Modal.Title>Modifica Password</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {passwordError && <Alert variant="danger">{passwordError}</Alert>}
+          {passwordError && (
+            <Alert variant="danger">{passwordError}</Alert>
+          )}
           <Form onSubmit={handlePasswordUpdate}>
-            <Form.Group className="mb-3">
-              <Form.Label className="text-dark">Password Attuale</Form.Label>
+            <Form.Group className="form-group">
+              <Form.Label className="form-label">Password Attuale</Form.Label>
               <Form.Control
                 type="password"
                 name="currentPassword"
                 value={passwordData.currentPassword}
                 onChange={handlePasswordChange}
-                required
+                className="form-control"
               />
             </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label className="text-dark">Nuova Password</Form.Label>
+            <Form.Group className="form-group">
+              <Form.Label className="form-label">Nuova Password</Form.Label>
               <Form.Control
                 type="password"
                 name="newPassword"
                 value={passwordData.newPassword}
                 onChange={handlePasswordChange}
-                required
+                className="form-control"
               />
             </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label className="text-dark">Conferma Nuova Password</Form.Label>
+            <Form.Group className="form-group">
+              <Form.Label className="form-label">Conferma Password</Form.Label>
               <Form.Control
                 type="password"
                 name="confirmPassword"
                 value={passwordData.confirmPassword}
                 onChange={handlePasswordChange}
-                required
+                className="form-control"
               />
             </Form.Group>
-
-            <div className="d-grid">
-              <Button variant="primary" type="submit">
-                Aggiorna Password
-              </Button>
+            <div className="d-flex justify-content-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowPasswordModal(false)}
+                className="profile-button secondary"
+              >
+                Annulla
+              </button>
+              <button
+                type="submit"
+                className="profile-button"
+              >
+                Salva Password
+              </button>
             </div>
           </Form>
         </Modal.Body>
