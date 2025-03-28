@@ -174,4 +174,9 @@
 
 .post-card {
   animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.post-card-actions {
+  display: flex;
+  align-items: center;
 } 

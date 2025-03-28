@@ -4,6 +4,7 @@ const Post = require("../models/Post");
 const { upload } = require("../utils/cloudinary.js");
 const { auth } = require("./auth");
 const User = require("../models/Users");
+const jwt = require("jsonwebtoken");
 
 //GET tutti i post
 router.get("/", async (req, res) => {
@@ -208,14 +209,28 @@ router.post("/:id/like", auth, async (req, res) => {
 });
 
 //GET ottiene lo stato del like per un post
-router.get("/:id/like", auth, async (req, res) => {
+router.get("/:id/like", async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         if (!post) {
             return res.status(404).json({ message: "Post non trovato" });
         }
 
-        const isLiked = post.likes.includes(req.userId);
+        // Estrai il token dall'header Authorization se presente
+        const authHeader = req.headers.authorization;
+        let userId = null;
+        
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            const token = authHeader.split(' ')[1];
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                userId = decoded.id;
+            } catch (err) {
+                // Se il token non è valido, procediamo senza userId
+            }
+        }
+
+        const isLiked = userId ? post.likes.includes(userId) : false;
         
         res.json({ 
             likes: post.likes.length,

@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 
 const LikeButton = ({ postId }) => {
     const [likes, setLikes] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (user && postId) {
+        if (postId) {
             // Carica lo stato iniziale del like
             const fetchLikeStatus = async () => {
                 try {
@@ -25,7 +27,8 @@ const LikeButton = ({ postId }) => {
 
     const handleLike = async () => {
         if (!user) {
-            // Se l'utente non è loggato, non fare nulla
+            console.log('Utente non autenticato, reindirizzamento al login');
+            navigate('/login');
             return;
         }
 
@@ -41,8 +44,7 @@ const LikeButton = ({ postId }) => {
     return (
         <button 
             onClick={handleLike}
-            className={`like-button ${isLiked ? 'liked' : ''}`}
-            disabled={!user}
+            className={`like-button ${isLiked ? 'liked' : ''} ${!user ? 'not-authenticated' : ''}`}
         >
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 

@@ -18,6 +18,10 @@
     color: #ff4757;
 }
 
+.like-button.not-authenticated {
+    cursor: pointer;
+}
+
 .like-button:disabled {
     cursor: not-allowed;
     opacity: 0.6;

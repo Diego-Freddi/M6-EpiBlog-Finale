@@ -4,6 +4,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import LikeButton from './LikeButton';
+import ShareButton from './ShareButton';
 import '../styles/PostCard.css';
 import '../styles/LikeButton.css';
 
@@ -14,8 +15,8 @@ const PostCard = ({ post }) => {
     `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${post.author?.firstName}+${post.author?.lastName}`;
 
   const handleClick = (e) => {
-    // Se il click è sul LikeButton, non navigare
-    if (e.target.closest('.like-button')) {
+    // Se il click è sul LikeButton o ShareButton, non navigare
+    if (e.target.closest('.like-button') || e.target.closest('.share-button')) {
       e.stopPropagation();
       return;
     }
@@ -101,7 +102,10 @@ const PostCard = ({ post }) => {
               })}
             </div>
           </div>
-          <LikeButton postId={post._id} />
+          <div className="post-card-actions">
+            <ShareButton postId={post._id} title={post.title} />
+            <LikeButton postId={post._id} />
+          </div>
         </div>
       </div>
     </div>
