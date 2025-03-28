@@ -82,13 +82,24 @@ const PostCard = ({ post }) => {
           <EditorContent editor={editor} />
         </div>
         <div className="post-card-footer">
-          <div className="post-card-author">
-            <img 
-              src={authorImage} 
-              alt={authorName}
-              className="post-card-author-image"
-            />
-            <span className="post-card-author-name">{authorName}</span>
+          <div className="post-card-author-info">
+            <div className="post-card-author">
+              <img 
+                src={authorImage} 
+                alt={authorName}
+                className="post-card-author-image"
+              />
+              <span className="post-card-author-name">{authorName}</span>
+            </div>
+            <div className="post-card-date">
+              {new Date(post.createdAt).toLocaleDateString('it-IT', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </div>
           </div>
           <LikeButton postId={post._id} />
         </div>

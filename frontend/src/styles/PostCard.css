@@ -148,6 +148,18 @@
   font-weight: 500;
 }
 
+.post-card-author-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.post-card-date {
+  color: var(--text-tertiary);
+  font-size: var(--font-size-xs);
+  margin-left: 32px;
+}
+
 /* Animazioni */
 @keyframes fadeInUp {
   from {
